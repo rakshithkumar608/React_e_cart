@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import store from '../store/EkartStore'
+import { useDispatch } from "react-redux";
+import { UserLogin } from "../store/UserSlice"
 
 const Login = () => {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+const handleLogin = (e) =>{
+  e.preventDefault();
+  dispatch(UserLogin)
+}
   return (
     <>
       <div className="flex h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-600">
@@ -21,6 +32,8 @@ const Login = () => {
               </label>
               <div className="mt-2">
                 <input
+                value={userName}
+                onChange={(e) =>setUserName(e.target.value)}
                   id="email"
                   type="text"
                   name="email"
@@ -50,6 +63,8 @@ const Login = () => {
               </div>
               <div className="mt-2">
                 <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                   id="password"
                   type="password"
                   name="password"
@@ -62,6 +77,7 @@ const Login = () => {
 
             <div>
               <button
+              onClick={handleLogin}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                 
