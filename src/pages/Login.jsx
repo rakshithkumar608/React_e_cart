@@ -1,17 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import store from '../store/EkartStore'
 import { useDispatch } from "react-redux";
 import { UserLogin } from "../store/UserSlice"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Use useSelector instead of direct store access
+const [isLoggedIn, setIsLoggedIn] = useState(store.getState().user.isLoggedIn);
+
+store.subscribe(() =>{
+  setIsLoggedIn(store.getState().user.isLoggedIn)
+})
+
+  useEffect(() =>{
+ if(isLoggedIn){
+  navigate('/');
+ }
+  }, [isLoggedIn, navigate])
 
 const handleLogin = (e) =>{
   e.preventDefault();
-  dispatch(UserLogin)
+  dispatch(UserLogin({userName,password}));
+  setPassword('');
 }
+
+
   return (
     <>
       <div className="flex h-screen flex-col justify-center px-6 py-12 lg:px-8 bg-gray-600">
